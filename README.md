@@ -1,4 +1,4 @@
-# TrainShop Starter — Projet sans CI
+# TrainShop Starter — Projet sans CI 
 
 Ce projet est volontairement simple et ne contient pas encore de GitHub Actions.
 
