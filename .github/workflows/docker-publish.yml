@@ -1,0 +1,48 @@
+name: Publier les images Docker
+
+# Bonus : build + push des images sur Docker Hub.
+#
+# Prérequis — définir dans Settings > Secrets and variables > Actions :
+#   - DOCKERHUB_USERNAME : votre identifiant Docker Hub
+#   - DOCKERHUB_TOKEN    : un access token Docker Hub (Account Settings > Security)
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Build & push Docker Hub
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Se connecter à Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & push API
+        uses: docker/build-push-action@v6
+        with:
+          context: ./api
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/trainshop-api:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/trainshop-api:${{ github.sha }}
+
+      - name: Build & push Frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/trainshop-frontend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/trainshop-frontend:${{ github.sha }}
