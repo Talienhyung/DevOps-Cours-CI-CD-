@@ -1,7 +1,14 @@
 const API_URL = 'http://localhost:3000';
+const APP_VERSION = 'TP Rollback v1.1.0';
 
 const healthElement = document.querySelector('#health');
 const productsElement = document.querySelector('#products');
+
+// Affiche la version applicative dans l'interface (modification TP).
+const versionBanner = document.createElement('p');
+versionBanner.className = 'badge';
+versionBanner.textContent = `Version applicative : ${APP_VERSION}`;
+document.querySelector('header').appendChild(versionBanner);
 
 document.querySelector('#check-api').addEventListener('click', async () => {
   try {
