@@ -47,8 +47,7 @@ app.get('/products', async (req, res) => {
       'SELECT id, name, description, price_cents, stock FROM products ORDER BY id ASC'
     );
 
-    // INCIDENT TP : variable inexistante (bug introduit volontairement).
-    res.json(produits.rows);
+    res.json(result.rows);
   } catch (error) {
     res.status(500).json({
       error: 'Impossible de récupérer les produits',
